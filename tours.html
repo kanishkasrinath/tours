@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Tours | Ethan & Nethan Tours</title>
+    <meta name="description"
+        content="Explore our premium tour packages in Sri Lanka. Wildlife safaris, cultural heritage tours, and coastal retreats.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script defer src="assets/js/main.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#1b4332', primaryLight: '#2d6a4f', secondary: '#e09f3e', accent: '#0077b6' },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 antialiased overflow-x-hidden pt-24">
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation (darkbg for subpages) -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-md py-4">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/logo.png" alt="Ethan & Nethan Tours"
+                    class="h-20 md:h-28 w-auto object-contain transform hover:scale-105 transition-transform duration-300 drop-shadow-xl" onerror="this.classList.add('hidden')">
+                <span class="logo-text text-2xl font-serif font-bold text-white drop-shadow-md hidden">Ethan & Nethan <span
+                        class="text-secondary text-lg">TOURS</span></span>
+            </a>
+
+            <div class="hidden md:flex space-x-8 text-primary font-bold items-center text-lg">
+                <a href="index.html" class="nav-link hover:text-secondary transition-colors">Home</a>
+                <a href="tours.html" class="nav-link text-secondary transition-colors">Tours</a><a href="planner.html" class="nav-link text-secondary transition-colors">Planner</a><a href="planner.html" class="nav-link hover:text-secondary transition-colors">Planner</a><a href="about.html" class="nav-link hover:text-secondary transition-colors">About Us</a>
+                <a href="contact.html" class="nav-link hover:text-secondary transition-colors">Contact</a>
+                <a href="contact.html"
+                    class="bg-secondary text-white px-6 py-2 rounded-full hover:bg-yellow-600 transition-colors shadow-lg">Book
+                    Now</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-primary text-2xl focus:outline-none focus:text-secondary">
+                <i class="fas fa-bars drop-shadow-md"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu"
+            class="hidden absolute top-full left-0 w-full bg-white shadow-xl flex flex-col items-center py-6 space-y-4 md:hidden text-primary font-medium">
+            <a href="index.html" class="hover:text-secondary transition-colors">Home</a>
+            <a href="tours.html" class="text-secondary transition-colors">Tours</a><a href="planner.html" class="hover:text-secondary transition-colors">Planner</a><a href="about.html" class="hover:text-secondary transition-colors">About Us</a>
+            <a href="contact.html" class="hover:text-secondary transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="relative pt-20 pb-24 bg-primary overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <img src="assets/images/tea.png" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent"></div>
+        </div>
+        <div class="container mx-auto px-6 lg:px-12 relative z-10 text-center fade-up"><h4 class="text-secondary font-bold tracking-widest uppercase mb-4 letter-spacing-anim">Explore</h4>
+            <h1 class="text-5xl md:text-6xl font-serif text-white font-bold mb-4 drop-shadow-lg">Our Curated <span
+                    class="text-secondary">Tours</span></h1>
+            <p class="text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-md">Discover the best of Sri Lanka with our
+                expertly designed travel packages.</p>
+        </div>
+    </header>
+
+    <!-- Filter/Sort (Static UI for aesthetics) -->
+    <div class="bg-white border-b border-gray-200 sticky top-[72px] z-40 hidden md:block">
+        <div class="container mx-auto px-6 lg:px-12 py-4 flex justify-between items-center">
+            <div class="flex space-x-6 text-gray-500 font-medium">
+                <button class="text-primary border-b-2 border-primary pb-1">All Tours</button>
+                <button class="hover:text-primary transition-colors">Wildlife</button>
+                <button class="hover:text-primary transition-colors">Cultural</button>
+                <button class="hover:text-primary transition-colors">Coastal</button>
+            </div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+                <span>Sort by:</span>
+                <select class="bg-transparent font-medium text-gray-700 outline-none cursor-pointer">
+                    <option>Recommended</option>
+                    <option>Price: Low to High</option>
+                    <option>Duration: Short to Long</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tours Grid -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+            <!-- Tour 1 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg group fade-up stagger-1">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="assets/images/wildlife.png" alt="Wildlife Safari"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-primary">
+                        5 Days</div>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-serif text-2xl font-bold text-primary mb-3">Wildlife Safari Adventure</h3>
+                    <p class="text-gray-600 mb-6 line-clamp-2">Encounter majestic elephants and elusive leopards in
+                        their natural habitats at Yala and Minneriya.</p>
+                    <ul class="text-sm text-gray-500 mb-6 space-y-2">
+                        <li><i class="fas fa-map-marker-alt w-5 text-secondary"></i> Yala, Minneriya, Udawalawe</li>
+                        <li><i class="fas fa-bed w-5 text-secondary"></i> 4 Nights 4-Star Accommodation</li>
+                        <li><i class="fas fa-utensils w-5 text-secondary"></i> Breakfast & Dinner Included</li>
+                    </ul>
+                    <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400">Starting from</span>
+                            <span class="text-secondary font-bold text-xl">$450</span>
+                        </div>
+                        <a href="contact.html"
+                            class="bg-primary text-white px-5 py-2 rounded-full hover:bg-primaryLight text-sm font-medium transition-colors">Book
+                            Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour 2 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg group fade-up stagger-2">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="assets/images/cultural.png" alt="Cultural Heritage"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-primary">
+                        7 Days</div>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-serif text-2xl font-bold text-primary mb-3">Ancient Heritage Tour</h3>
+                    <p class="text-gray-600 mb-6 line-clamp-2">Step back in time exploring Sigiriya Rock Fortress,
+                        Polonnaruwa, and the sacred Temple of the Tooth.</p>
+                    <ul class="text-sm text-gray-500 mb-6 space-y-2">
+                        <li><i class="fas fa-map-marker-alt w-5 text-secondary"></i> Cultural Triangle, Kandy</li>
+                        <li><i class="fas fa-bed w-5 text-secondary"></i> 6 Nights Premium Stays</li>
+                        <li><i class="fas fa-ticket-alt w-5 text-secondary"></i> Entrance Fees Included</li>
+                    </ul>
+                    <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400">Starting from</span>
+                            <span class="text-secondary font-bold text-xl">$600</span>
+                        </div>
+                        <a href="contact.html"
+                            class="bg-primary text-white px-5 py-2 rounded-full hover:bg-primaryLight text-sm font-medium transition-colors">Book
+                            Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour 3 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg group fade-up stagger-3">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="assets/images/hero.png" alt="Coastal Escape"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-primary">
+                        4 Days</div>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-serif text-2xl font-bold text-primary mb-3">Coastal Bliss Retreat</h3>
+                    <p class="text-gray-600 mb-6 line-clamp-2">Relax on golden sandy beaches, surf in Mirissa, and enjoy
+                        fresh seafood while the sun sets.</p>
+                    <ul class="text-sm text-gray-500 mb-6 space-y-2">
+                        <li><i class="fas fa-map-marker-alt w-5 text-secondary"></i> Galle, Mirissa, Unawatuna</li>
+                        <li><i class="fas fa-ship w-5 text-secondary"></i> Whale Watching Tour</li>
+                        <li><i class="fas fa-cocktail w-5 text-secondary"></i> Welcome Drinks</li>
+                    </ul>
+                    <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400">Starting from</span>
+                            <span class="text-secondary font-bold text-xl">$350</span>
+                        </div>
+                        <a href="contact.html"
+                            class="bg-primary text-white px-5 py-2 rounded-full hover:bg-primaryLight text-sm font-medium transition-colors">Book
+                            Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour 4 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg group fade-up stagger-1">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="assets/images/tea.png" alt="Hill Country Train"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-primary">
+                        3 Days</div>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-serif text-2xl font-bold text-primary mb-3">Hill Country Essentials</h3>
+                    <p class="text-gray-600 mb-6 line-clamp-2">Experience the scenic train ride to Ella, visit lush tea
+                        plantations, and hike Little Adam's Peak.</p>
+                    <ul class="text-sm text-gray-500 mb-6 space-y-2">
+                        <li><i class="fas fa-map-marker-alt w-5 text-secondary"></i> Nuwara Eliya, Ella</li>
+                        <li><i class="fas fa-train w-5 text-secondary"></i> Scenic Train Tickets</li>
+                        <li><i class="fas fa-camera w-5 text-secondary"></i> Guided Hiking Tour</li>
+                    </ul>
+                    <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400">Starting from</span>
+                            <span class="text-secondary font-bold text-xl">$290</span>
+                        </div>
+                        <a href="contact.html"
+                            class="bg-primary text-white px-5 py-2 rounded-full hover:bg-primaryLight text-sm font-medium transition-colors">Book
+                            Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour 5 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg group fade-up stagger-2">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="assets/images/wildlife.png" alt="Grand Sri Lanka"
+                        class="w-full h-full object-cover filter contrast-125 transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-primary">
+                        14 Days</div>
+                    <div
+                        class="absolute top-4 left-4 bg-secondary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-md">
+                        Best Value</div>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-serif text-2xl font-bold text-primary mb-3">The Grand Sri Lanka Tour</h3>
+                    <p class="text-gray-600 mb-6 line-clamp-2">The ultimate island experience covering beaches,
+                        wildlife, culture, and the hill country.</p>
+                    <ul class="text-sm text-gray-500 mb-6 space-y-2">
+                        <li><i class="fas fa-map-marker-alt w-5 text-secondary"></i> Island-wide Coverage</li>
+                        <li><i class="fas fa-star w-5 text-secondary"></i> Premium 5-Star Accommodations</li>
+                        <li><i class="fas fa-car w-5 text-secondary"></i> Private Chauffeur Guide</li>
+                    </ul>
+                    <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-400">Starting from</span>
+                            <span class="text-secondary font-bold text-xl">$1,450</span>
+                        </div>
+                        <a href="contact.html"
+                            class="bg-primary text-white px-5 py-2 rounded-full hover:bg-primaryLight text-sm font-medium transition-colors">Book
+                            Now</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#112a20] text-white pt-20 pb-10 relative overflow-hidden"><div class="absolute inset-0 bg-watermark opacity-[0.04]"></div>
+        <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 relative z-10">
+            <div class="col-span-1 md:col-span-2">
+                <a href="index.html" class="flex items-center gap-3 mb-6">
+                    <img src="assets/images/logo.png" alt="Ethan & Nethan Tours"
+                        class="h-10 w-auto object-contain hidden md:block" onerror="this.classList.add('hidden')">
+                    <h3 class="text-3xl font-serif font-bold">Ethan & Nethan <span class="text-secondary">Tours</span>
+                    </h3>
+                </a>
+                <p class="text-gray-400 mb-6 max-w-sm leading-relaxed">Your premium travel partner in Sri Lanka. We turn
+                    your dream vacations into unforgettable memories with our curated experiences.</p>
+                <div class="flex space-x-4">
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i
+                            class="fab fa-tripadvisor"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 border-b border-white/20 pb-2 inline-block">Quick Links</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="index.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Home</a></li>
+                    <li><a href="tours.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Our Tours</a></li>
+                    <li><a href="about.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>About Us</a></li>
+                    <li><a href="contact.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 border-b border-white/20 pb-2 inline-block">Contact Info</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1 text-secondary"></i>
+                        <span>Colombo, Sri Lanka</span>
+                    </li>
+                    <li class="flex items-center gap-3"><i class="fas fa-phone text-secondary"></i> <span>Tour
+                            Executive<br>+94 76 711 7832 (Manosha)<br>+94 74 035 7314 (Ethan)</span></li>
+                    <li class="flex items-center gap-3"><i class="fas fa-envelope text-secondary"></i>
+                        <span>manoshaperera57@gmail.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="container mx-auto px-6 lg:px-12 border-t border-white/10 pt-8 text-center text-gray-500 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 Ethan & Nethan Tours. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
+
+
+
+
+

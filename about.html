@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Ethan & Nethan Tours</title>
+    <meta name="description"
+        content="Learn about Ethan & Nethan Tours. We are passionate about sharing the beauty of Sri Lanka with the world.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script defer src="assets/js/main.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#1b4332', primaryLight: '#2d6a4f', secondary: '#e09f3e', accent: '#0077b6' },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 antialiased overflow-x-hidden pt-24">
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-md py-4">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/logo.png" alt="Ethan & Nethan Tours"
+                    class="h-20 md:h-28 w-auto object-contain transform hover:scale-105 transition-transform duration-300 drop-shadow-xl" onerror="this.classList.add('hidden')">
+                <span class="logo-text text-2xl font-serif font-bold text-white drop-shadow-md hidden">Ethan & Nethan <span
+                        class="text-secondary text-lg">TOURS</span></span>
+            </a>
+
+            <div class="hidden md:flex space-x-8 text-primary font-bold items-center text-lg">
+                <a href="index.html" class="nav-link hover:text-secondary transition-colors">Home</a>
+                <a href="tours.html" class="nav-link hover:text-secondary transition-colors">Tours</a><a href="planner.html" class="nav-link hover:text-secondary transition-colors">Planner</a><a href="about.html" class="nav-link text-secondary transition-colors">About Us</a>
+                <a href="contact.html" class="nav-link hover:text-secondary transition-colors">Contact</a>
+                <a href="contact.html"
+                    class="bg-secondary text-white px-6 py-2 rounded-full hover:bg-yellow-600 transition-colors shadow-lg">Book
+                    Now</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-primary text-2xl focus:outline-none focus:text-secondary">
+                <i class="fas fa-bars drop-shadow-md"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu"
+            class="hidden absolute top-full left-0 w-full bg-white shadow-xl flex flex-col items-center py-6 space-y-4 md:hidden text-primary font-medium">
+            <a href="index.html" class="hover:text-secondary transition-colors">Home</a>
+            <a href="tours.html" class="hover:text-secondary transition-colors">Tours</a>
+            <a href="about.html" class="text-secondary transition-colors">About Us</a>
+            <a href="contact.html" class="hover:text-secondary transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="relative pt-20 pb-24 bg-primary overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <img src="assets/images/cultural.png" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent"></div>
+        </div>
+        <div class="container mx-auto px-6 lg:px-12 relative z-10 text-center fade-up"><h4 class="text-secondary font-bold tracking-widest uppercase mb-4 letter-spacing-anim">Who We Are</h4>
+            <h1 class="text-5xl md:text-6xl font-serif text-white font-bold mb-4 drop-shadow-lg">Our <span
+                    class="text-secondary">Story</span></h1>
+            <p class="text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-md">Passionate about sharing the soul of Sri
+                Lanka with the world.</p>
+        </div>
+    </header>
+
+    <!-- Mission & Vision -->
+    <section class="py-24 bg-white relative">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-gray-50 -z-10 hidden lg:block rounded-bl-[100px]"></div>
+        <div class="container mx-auto px-6 lg:px-12 flex flex-col lg:flex-row gap-16 items-center">
+            <div class="lg:w-1/2 fade-up stagger-1">
+                <h4 class="text-secondary font-bold tracking-widest uppercase mb-2">Who We Are</h4>
+                <h2 class="text-4xl md:text-5xl font-serif text-primary font-bold mb-6">Redefining Travel in Sri Lanka
+                </h2>
+                <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    Founded on a deep love for our island nation, Ethan & Nethan Tours was created to offer more than
+                    just standard vacations. We believe in crafting authentic experiences that allow travelers to truly
+                    connect with Sri Lanka's wildlife, heritage, and people.
+                </p>
+                <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                    From luxurious coastal retreats to thrilling wildlife expeditions, our team of local experts
+                    guarantees a seamless, unforgettable journey tailored precisely to your desires.
+                </p>
+
+                <div class="grid grid-cols-2 gap-6 mt-10">
+                    <div class="border-l-4 border-secondary pl-4">
+                        <h4 class="text-3xl font-serif font-bold text-primary mb-1">10+</h4>
+                        <p class="text-gray-500 text-sm font-medium">Years Experience</p>
+                    </div>
+                    <div class="border-l-4 border-secondary pl-4">
+                        <h4 class="text-3xl font-serif font-bold text-primary mb-1">5K+</h4>
+                        <p class="text-gray-500 text-sm font-medium">Happy Travelers</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:w-1/2 w-full fade-up stagger-2">
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="assets/images/tea.png"
+                        class="rounded-2xl shadow-lg w-full h-48 md:h-64 object-cover transform translate-y-8"
+                        alt="About us image 1">
+                    <img src="assets/images/cultural.png" class="rounded-2xl shadow-lg w-full h-64 md:h-80 object-cover"
+                        alt="About us image 2">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-24 bg-primary text-white">
+        <div class="container mx-auto px-6 lg:px-12 fade-up">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h4 class="text-secondary font-bold tracking-widest uppercase mb-2">Our Promise</h4>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6">Why Travel With Us?</h2>
+                <p class="text-gray-300">We go above and beyond to ensure your Sri Lankan journey is nothing short of
+                    perfection.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div
+                    class="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center text-center">
+                    <div
+                        class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center text-2xl mb-6 shadow-lg">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">Premium Quality</h3>
+                    <p class="text-gray-300">We partner with the finest hotels and service providers to ensure maximum
+                        comfort and luxury throughout your stay.</p>
+                </div>
+
+                <div
+                    class="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center text-center">
+                    <div
+                        class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center text-2xl mb-6 shadow-lg">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">Local Expertise</h3>
+                    <p class="text-gray-300">Our chauffeurs and guides are native experts who know the hidden gems, best
+                        routes, and rich history of the island.</p>
+                </div>
+
+                <div
+                    class="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 hover:-translate-y-2 transition-transform duration-300 flex flex-col items-center text-center">
+                    <div
+                        class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center text-2xl mb-6 shadow-lg">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">24/7 Support</h3>
+                    <p class="text-gray-300">From the moment you arrive until your departure, our dedicated team is
+                        available around the clock to assist you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#112a20] text-white pt-20 pb-10 relative overflow-hidden"><div class="absolute inset-0 bg-watermark opacity-[0.04]"></div>
+        <!-- ... Same Footer as before ... -->
+        <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 relative z-10">
+            <div class="col-span-1 md:col-span-2">
+                <a href="index.html" class="flex items-center gap-3 mb-6">
+                    <img src="assets/images/logo.png" alt="Ethan & Nethan Tours"
+                        class="h-10 w-auto object-contain hidden md:block" onerror="this.classList.add('hidden')">
+                    <h3 class="text-3xl font-serif font-bold">Ethan & Nethan <span class="text-secondary">Tours</span>
+                    </h3>
+                </a>
+                <p class="text-gray-400 mb-6 max-w-sm leading-relaxed">Your premium travel partner in Sri Lanka.</p>
+                <div class="flex space-x-4">
+                    <!-- Social icons -->
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i
+                            class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 border-b border-white/20 pb-2 inline-block">Quick Links</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="index.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Home</a></li>
+                    <li><a href="tours.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Our Tours</a></li>
+                    <li><a href="about.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>About Us</a></li>
+                    <li><a href="contact.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 border-b border-white/20 pb-2 inline-block">Contact Info</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1 text-secondary"></i>
+                        <span>Colombo, Sri Lanka</span>
+                    </li>
+                    <li class="flex items-center gap-3"><i class="fas fa-phone text-secondary"></i> <span>Tour
+                            Executive<br>+94 76 711 7832 (Manosha)<br>+94 74 035 7314 (Ethan)</span></li>
+                    <li class="flex items-center gap-3"><i class="fas fa-envelope text-secondary"></i>
+                        <span>manoshaperera57@gmail.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 lg:px-12 border-t border-white/10 pt-8 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 Ethan & Nethan Tours. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
+
+
+
+
+

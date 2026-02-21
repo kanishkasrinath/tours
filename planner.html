@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Tour Planner | Ethan & Nethan Tours</title>
+    <meta name="description"
+        content="Plan your perfect Sri Lankan vacation with our interactive tour builder and budget calculator.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script defer src="assets/js/main.js"></script>
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#1b4332', primaryLight: '#2d6a4f', secondary: '#e09f3e', accent: '#0077b6' },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 antialiased overflow-x-hidden pt-24 relative">
+    <!-- Body Watermark -->
+    <div class="fixed inset-0 z-0 bg-watermark-center opacity-[0.03] pointer-events-none"></div>
+
+    <!-- Loader -->
+    <div id="loader" class="z-[9999]">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar"
+        class="fixed top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-md py-4">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/logo.png" alt="Ethan & Nethan Tours"
+                    class="h-20 md:h-28 w-auto object-contain transform hover:scale-105 transition-transform duration-300 drop-shadow-xl"
+                    onerror="this.classList.add('hidden')">
+                <span class="logo-text text-2xl font-serif font-bold text-white drop-shadow-md hidden">Ethan & Nethan
+                    <span class="text-secondary text-lg">TOURS</span></span>
+            </a>
+
+            <div class="hidden md:flex space-x-8 text-primary font-bold items-center text-lg">
+                <a href="index.html" class="nav-link hover:text-secondary transition-colors">Home</a>
+                <a href="tours.html" class="nav-link hover:text-secondary transition-colors">Tours</a>
+                <a href="planner.html" class="nav-link text-secondary transition-colors">Planner</a>
+                <a href="about.html" class="nav-link hover:text-secondary transition-colors">About Us</a>
+                <a href="contact.html" class="nav-link hover:text-secondary transition-colors">Contact</a>
+                <a href="contact.html"
+                    class="bg-secondary text-white px-6 py-2 rounded-full hover:bg-yellow-600 transition-colors shadow-lg">Book
+                    Now</a>
+            </div>
+
+            <button id="mobile-menu-btn"
+                class="md:hidden text-primary text-2xl focus:outline-none focus:text-secondary">
+                <i class="fas fa-bars drop-shadow-md"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu"
+            class="hidden absolute top-full left-0 w-full bg-white shadow-xl flex flex-col items-center py-6 space-y-4 md:hidden text-primary font-medium">
+            <a href="index.html" class="hover:text-secondary transition-colors">Home</a>
+            <a href="tours.html" class="hover:text-secondary transition-colors">Tours</a>
+            <a href="planner.html" class="text-secondary transition-colors">Planner</a>
+            <a href="about.html" class="hover:text-secondary transition-colors">About Us</a>
+            <a href="contact.html" class="hover:text-secondary transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="relative pt-20 pb-24 bg-primary overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-30">
+            <img src="assets/images/wildlife.png" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent"></div>
+        </div>
+        <div class="container mx-auto px-6 lg:px-12 relative z-10 text-center fade-up">
+            <h4 class="text-secondary font-bold tracking-widest uppercase mb-4 letter-spacing-anim">Build Your Dream
+            </h4>
+            <h1 class="text-5xl md:text-7xl font-serif text-white font-bold mb-4 drop-shadow-lg">Custom <span
+                    class="text-gradient">Tour Planner</span></h1>
+            <p class="text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-md">Select your preferences below to get a
+                live estimated budget for your tailormade Sri Lankan adventure.</p>
+        </div>
+    </header>
+
+    <!-- Interactive Planner Section -->
+    <section class="py-20 relative z-10">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row gap-12 items-start">
+
+                <!-- Left: Configuration Form -->
+                <div
+                    class="lg:w-2/3 bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-100 fade-up stagger-1 w-full">
+                    <h2 class="text-3xl font-serif font-bold text-primary mb-8 border-b border-gray-100 pb-4">Itinerary
+                        Details</h2>
+
+                    <form id="planner-form" class="space-y-10">
+                        <!-- Group Size Configuration -->
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"><i
+                                    class="fas fa-users text-secondary"></i> 1. Who is traveling?</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-600 mb-2">Adults (12+ yrs)</label>
+                                    <input type="number" id="calc-adults" min="1" max="20" value="2"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary text-lg font-bold text-center">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-600 mb-2">Children (2-11
+                                        yrs)</label>
+                                    <input type="number" id="calc-children" min="0" max="10" value="0"
+                                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-secondary text-lg font-bold text-center">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duration Configuration -->
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"><i
+                                    class="fas fa-calendar-alt text-secondary"></i> 2. How many days?</h3>
+                            <div>
+                                <input type="range" id="calc-days" min="3" max="21" value="7"
+                                    class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-secondary">
+                                <div class="flex justify-between text-sm text-gray-500 mt-2 font-bold">
+                                    <span>3 Days</span>
+                                    <span id="days-display"
+                                        class="text-primary text-xl px-4 py-1 bg-primary/10 rounded-full">3 Days / 2
+                                        Nights</span>
+                                    <span>21 Days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interests (Checkboxes) -->
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"><i
+                                    class="fas fa-heart text-secondary"></i> 3. What are your main interests?</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <label
+                                    class="flex flex-col items-center justify-center p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="checkbox"
+                                        class="interest-check absolute top-2 right-2 accent-secondary w-5 h-5"
+                                        value="wildlife" checked>
+                                    <i class="fas fa-leaf text-3xl text-primary mb-2"></i>
+                                    <span class="font-bold text-sm text-gray-700">Wildlife & Safari</span>
+                                </label>
+                                <label
+                                    class="flex flex-col items-center justify-center p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="checkbox"
+                                        class="interest-check absolute top-2 right-2 accent-secondary w-5 h-5"
+                                        value="culture" checked>
+                                    <i class="fas fa-monument text-3xl text-primaryLight mb-2"></i>
+                                    <span class="font-bold text-sm text-gray-700">Culture & History</span>
+                                </label>
+                                <label
+                                    class="flex flex-col items-center justify-center p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="checkbox"
+                                        class="interest-check absolute top-2 right-2 accent-secondary w-5 h-5"
+                                        value="beach">
+                                    <i class="fas fa-water text-3xl accent mb-2 text-[#0077b6]"></i>
+                                    <span class="font-bold text-sm text-gray-700">Beaches & Relax</span>
+                                </label>
+                                <label
+                                    class="flex flex-col items-center justify-center p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="checkbox"
+                                        class="interest-check absolute top-2 right-2 accent-secondary w-5 h-5"
+                                        value="nature">
+                                    <i class="fas fa-mountain text-3xl text-secondary mb-2"></i>
+                                    <span class="font-bold text-sm text-gray-700">Hill Country</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Locations Map -->
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center gap-2"><i
+                                    class="fas fa-map-marker-alt text-secondary"></i> 4. Select Destinations</h3>
+                            <p class="text-sm text-gray-600 mb-4">Click on the markers to add destinations to your
+                                itinerary.</p>
+
+                            <div class="rounded-xl overflow-hidden border-2 border-gray-100 shadow-sm relative z-0 mb-4 h-[400px]"
+                                id="planner-map"></div>
+
+                            <div
+                                class="p-4 bg-primary/5 rounded-xl border border-primary/10 flex flex-col md:flex-row justify-between gap-4">
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-sm text-primary mb-2">Selected Route & Destinations:</h4>
+                                    <div id="selected-locations-disp"
+                                        class="flex flex-wrap gap-2 text-sm text-gray-500 italic">None selected yet.
+                                        Click map markers or map areas to add locations.</div>
+                                </div>
+                                <div
+                                    class="bg-white px-5 py-3 rounded-xl border border-primary/10 shadow-sm self-start shrink-0 text-center">
+                                    <h4 class="font-bold text-xs text-secondary uppercase tracking-wider mb-1">Total
+                                        Distance</h4>
+                                    <div class="text-2xl font-bold text-primary" id="route-distance">0 km</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vehicle Selection -->
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"><i
+                                    class="fas fa-car text-secondary"></i> 5. Which vehicle suits you?</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <label
+                                    class="flex flex-col p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="radio" name="vehicle-type"
+                                        class="absolute top-4 right-4 accent-secondary w-5 h-5" value="car" checked>
+                                    <div class="font-bold text-lg text-primary mb-1">Car</div>
+                                    <div class="text-xs text-gray-500">1-3 Passengers</div>
+                                </label>
+                                <label
+                                    class="flex flex-col p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="radio" name="vehicle-type"
+                                        class="absolute top-4 right-4 accent-secondary w-5 h-5" value="van">
+                                    <div class="font-bold text-lg text-primary mb-1">Van</div>
+                                    <div class="text-xs text-gray-500">4-8 Passengers</div>
+                                </label>
+                                <label
+                                    class="flex flex-col p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="radio" name="vehicle-type"
+                                        class="absolute top-4 right-4 accent-secondary w-5 h-5" value="bus">
+                                    <div class="font-bold text-lg text-primary mb-1">Mini Bus</div>
+                                    <div class="text-xs text-gray-500">9-20 Passengers</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Accommodation Standard -->
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"><i
+                                    class="fas fa-hotel text-secondary"></i> 6. Preferred Hotel Standard?</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <label
+                                    class="flex flex-col p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="radio" name="hotel-standard"
+                                        class="absolute top-4 right-4 accent-secondary w-5 h-5" value="budget">
+                                    <div class="font-bold text-lg text-primary mb-1">Standard</div>
+                                    <div class="text-xs text-gray-500 mb-2">Comfortable 3-Star Hotels</div>
+                                    <div class="flex text-secondary text-xs"><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                </label>
+                                <label
+                                    class="flex flex-col p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="radio" name="hotel-standard"
+                                        class="absolute top-4 right-4 accent-secondary w-5 h-5" value="premium" checked>
+                                    <div class="font-bold text-lg text-primary mb-1">Premium</div>
+                                    <div class="text-xs text-gray-500 mb-2">Boutique & 4-Star Hotels</div>
+                                    <div class="flex text-secondary text-xs"><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i></div>
+                                </label>
+                                <label
+                                    class="flex flex-col p-4 border-2 border-gray-100 rounded-xl cursor-pointer hover:border-secondary transition-colors bg-white relative">
+                                    <input type="radio" name="hotel-standard"
+                                        class="absolute top-4 right-4 accent-secondary w-5 h-5" value="luxury">
+                                    <div class="font-bold text-lg text-primary mb-1">Luxury</div>
+                                    <div class="text-xs text-gray-500 mb-2">5-Star & High-end Villas</div>
+                                    <div class="flex text-secondary text-xs"><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                </label>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Right: Live Budget Estimate & Submit -->
+                <div class="lg:w-1/3 w-full sticky top-[100px] fade-up stagger-2">
+                    <div
+                        class="bg-primary text-white rounded-2xl shadow-2xl overflow-hidden relative border border-white/20 hover:scale-[1.02] transition-transform duration-300">
+                        <div class="absolute inset-0 bg-watermark opacity-10"></div>
+
+                        <div class="p-8 relative z-10 border-b border-white/10">
+                            <h3
+                                class="text-sm font-bold tracking-widest uppercase text-secondary mb-2 letter-spacing-anim">
+                                Live Estimate</h3>
+                            <div class="text-5xl font-serif font-bold text-white mb-2 drop-shadow-md flex items-baseline gap-1"
+                                id="total-budget">
+                                <span class="text-2xl opacity-80">$</span>0
+                            </div>
+                            <p class="text-gray-300 text-sm italic">*Estimated total price for entire group. Excludes
+                                international flights.</p>
+                        </div>
+
+                        <div class="p-8 relative z-10 bg-black/20">
+                            <h4 class="font-bold mb-4 flex items-center gap-2"><i
+                                    class="fas fa-clipboard-list text-secondary"></i> Trip Summary</h4>
+                            <ul class="space-y-3 text-sm text-gray-200 mb-8" id="summary-list">
+                                <li class="flex justify-between border-b border-white/10 pb-2"><span>Travelers:</span>
+                                    <span class="font-bold text-white text-right" id="sum-pax">2 Adults, 0
+                                        Children</span>
+                                </li>
+                                <li class="flex justify-between border-b border-white/10 pb-2"><span>Duration:</span>
+                                    <span class="font-bold text-white" id="sum-days">7 Days</span>
+                                </li>
+                                <li class="flex justify-between border-b border-white/10 pb-2"><span>Hotel Tier:</span>
+                                    <span class="font-bold text-white capitalize text-right"
+                                        id="sum-hotel">Premium</span>
+                                </li>
+                                <li class="flex justify-between border-b border-white/10 pb-2"><span>Includes:</span>
+                                    <span class="font-bold text-white text-right">Transport, Guide, BB Board,
+                                        Taxes</span>
+                                </li>
+                            </ul>
+
+                            <button onclick="document.getElementById('inquiry-modal').classList.remove('hidden');"
+                                class="w-full bg-secondary hover:bg-yellow-500 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-2 group">
+                                Send Inquiry to Ethan <i
+                                    class="fas fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div class="mt-6 bg-white rounded-xl shadow border border-gray-100 p-6 flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center text-green-600 shrink-0">
+                            <i class="fas fa-shield-alt text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-800">No Commitments Required</h4>
+                            <p class="text-xs text-gray-500 mt-1">Submit your plan for a free, customized official
+                                quotation tailored by our experts.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Inquiry Details -->
+    <div id="inquiry-modal" class="fixed inset-0 z-[100] hidden items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onclick="document.getElementById('inquiry-modal').classList.add('hidden');"></div>
+        <div
+            class="bg-white rounded-2xl w-full max-w-lg relative z-10 shadow-2xl p-8 transform transition-all overflow-hidden border-t-8 border-secondary">
+            <!-- Modal Watermark -->
+            <div class="absolute inset-0 bg-watermark-center opacity-5 pointer-events-none"></div>
+
+            <button class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors"
+                onclick="document.getElementById('inquiry-modal').classList.add('hidden');">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h3 class="text-2xl font-serif font-bold text-primary mb-2">Finalize Your Inquiry</h3>
+            <p class="text-gray-600 text-sm mb-6">Provide your contact info and our Tour Executive will get back to you
+                with the finalized plan.</p>
+
+            <form class="space-y-4 relative z-10">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                    <input type="text"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent"
+                        placeholder="John Doe">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent"
+                        placeholder="john@example.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone / WhatsApp</label>
+                    <input type="tel"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent"
+                        placeholder="+1 234 567 8900">
+                </div>
+                <button type="button"
+                    onclick="alert('Inquiry successfully sent! Manosha or Ethan will contact you shortly.'); document.getElementById('inquiry-modal').classList.add('hidden');"
+                    class="w-full bg-primary text-white font-bold py-3 mt-4 rounded-lg hover:bg-primaryLight transition-all">
+                    Submit Custom Plan
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer with Watermark -->
+    <footer class="bg-[#112a20] text-white pt-20 pb-10 relative overflow-hidden">
+        <div class="absolute inset-0 bg-watermark opacity-[0.04]"></div>
+        <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 relative z-10">
+            <div class="col-span-1 md:col-span-2">
+                <a href="index.html" class="flex items-center gap-3 mb-6 block">
+                    <img src="assets/images/logo.png" alt="Ethan & Nethan Tours"
+                        class="h-16 w-auto object-contain drop-shadow-xl" onerror="this.classList.add('hidden')">
+                </a>
+                <p class="text-gray-400 mb-6 max-w-sm leading-relaxed">Your premium travel partner in Sri Lanka.</p>
+                <div class="flex space-x-4">
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i
+                            class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 border-b border-white/20 pb-2 inline-block">Quick Links</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="index.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Home</a></li>
+                    <li><a href="tours.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Our Tours</a></li>
+                    <li><a href="planner.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Tour Planner</a></li>
+                    <li><a href="about.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>About Us</a></li>
+                    <li><a href="contact.html" class="hover:text-secondary transition-colors"><i
+                                class="fas fa-angle-right mr-2 text-secondary text-xs"></i>Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 border-b border-white/20 pb-2 inline-block">Contact Info</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1 text-secondary"></i>
+                        <span>Colombo, Sri Lanka</span>
+                    </li>
+                    <li class="flex items-start gap-3"><i class="fas fa-phone text-secondary mt-1"></i> <span>Tour
+                            Executive<br><a href="tel:+94767117832" class="hover:text-white transition">+94 76 711 7832
+                                (Manosha)</a><br><a href="tel:+94740357314" class="hover:text-white transition">+94 74
+                                035 7314 (Ethan)</a></span></li>
+                    <li class="flex items-center gap-3"><i class="fas fa-envelope text-secondary"></i> <a
+                            href="mailto:manoshaperera57@gmail.com"
+                            class="hover:text-white transition">manoshaperera57@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="container mx-auto px-6 lg:px-12 border-t border-white/10 pt-8 text-center text-gray-500 text-sm relative z-10">
+            <p>&copy; 2026 Ethan & Nethan Tours. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Calculator Logic Array Form -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const adultsInput = document.getElementById('calc-adults');
+            const childrenInput = document.getElementById('calc-children');
+            const daysInput = document.getElementById('calc-days');
+            const daysDisplay = document.getElementById('days-display');
+            const hotelRadios = document.querySelectorAll('input[name="hotel-standard"]');
+            const vehicleRadios = document.querySelectorAll('input[name="vehicle-type"]');
+
+            const totalBudgetDisplay = document.getElementById('total-budget');
+            const sumPax = document.getElementById('sum-pax');
+            const sumDays = document.getElementById('sum-days');
+            const sumHotel = document.getElementById('sum-hotel');
+
+            // Daily costs logic per person
+            const dailyRates = {
+                budget: { adult: 80, child: 40 },
+                premium: { adult: 130, child: 70 },
+                luxury: { adult: 250, child: 130 }
+            };
+
+            const formatCurrency = (num) => {
+                return '<span class="text-2xl opacity-80">$</span>' + new Intl.NumberFormat('en-US').format(num);
+            };
+
+            let totalRouteKm = 0;
+
+            const calculateBudget = () => {
+                const adults = parseInt(adultsInput.value) || 0;
+                const children = parseInt(childrenInput.value) || 0;
+                const days = parseInt(daysInput.value) || 3;
+
+                let hotelTier = 'premium';
+                hotelRadios.forEach(radio => { if (radio.checked) hotelTier = radio.value; });
+
+                let vehicleType = 'car';
+                vehicleRadios.forEach(radio => { if (radio.checked) vehicleType = radio.value; });
+
+                const nights = days - 1;
+                daysDisplay.textContent = `${days} Days / ${nights} Nights`;
+
+                sumPax.textContent = `${adults} Adult(s), ${children} Child(ren)`;
+                sumDays.textContent = `${days} Days`;
+                sumHotel.textContent = hotelTier + " | " + vehicleType.toUpperCase();
+
+                // Vehicle rates per km
+                const vehicleRates = { car: 0.4, van: 0.6, bus: 1.2 };
+                // Daily driver/fuel base fee
+                const driverFeePerDay = { car: 40, van: 50, bus: 70 };
+
+                // Calculate transport based on real map distance
+                const transportCost = (totalRouteKm * vehicleRates[vehicleType]) + (days * driverFeePerDay[vehicleType]);
+
+                // Accommodation & Meals per person per night
+                const adultCost = nights * dailyRates[hotelTier].adult * adults;
+                const childCost = nights * dailyRates[hotelTier].child * children;
+
+                // Simple total sum formula
+                const total = transportCost + adultCost + childCost;
+
+                totalBudgetDisplay.innerHTML = formatCurrency(total);
+            };
+
+            // Event Listeners
+            [adultsInput, childrenInput, daysInput].forEach(input => {
+                input.addEventListener('input', calculateBudget);
+            });
+            hotelRadios.forEach(radio => {
+                radio.addEventListener('change', calculateBudget);
+            });
+            vehicleRadios.forEach(radio => {
+                radio.addEventListener('change', calculateBudget);
+            });
+
+            // Map Logic (Leaflet.js)
+            const map = L.map('planner-map').setView([7.8731, 80.7718], 7); // Center of Sri Lanka
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 18
+            }).addTo(map);
+
+            const locations = [
+                { id: 'bia', name: 'CMB Airport', lat: 7.1804, lng: 79.8833, isAirport: true },
+                { id: 'cmb', name: 'Colombo', lat: 6.9271, lng: 79.8612 },
+                { id: 'neg', name: 'Negombo', lat: 7.2008, lng: 79.8737 },
+                { id: 'kan', name: 'Kandy', lat: 7.2906, lng: 80.6337 },
+                { id: 'gal', name: 'Galle', lat: 6.0328, lng: 80.2170 },
+                { id: 'ell', name: 'Ella', lat: 6.8667, lng: 81.0466 },
+                { id: 'sig', name: 'Sigiriya', lat: 7.9534, lng: 80.7497 },
+                { id: 'jaf', name: 'Jaffna', lat: 9.6615, lng: 80.0255 },
+                { id: 'dam', name: 'Dambulla', lat: 7.8596, lng: 80.6493 },
+                { id: 'pol', name: 'Polonnaruwa', lat: 7.9403, lng: 81.0188 },
+                { id: 'tri', name: 'Trincomalee', lat: 8.5874, lng: 81.2152 },
+                { id: 'aru', name: 'Arugam Bay', lat: 6.8436, lng: 81.8286 },
+                { id: 'yal', name: 'Yala National Park', lat: 6.3768, lng: 81.4283 },
+                { id: 'uda', name: 'Udawalawe', lat: 6.4526, lng: 80.8996 },
+                { id: 'anu', name: 'Anuradhapura', lat: 8.3114, lng: 80.4037 },
+                { id: 'nuw', name: 'Nuwara Eliya', lat: 6.9497, lng: 80.7828 },
+                { id: 'hor', name: 'Horton Plains', lat: 6.8048, lng: 80.8062 },
+                { id: 'mir', name: 'Mirissa', lat: 5.9483, lng: 80.4716 },
+                { id: 'hik', name: 'Hikkaduwa', lat: 6.1396, lng: 80.1063 },
+                { id: 'ben', name: 'Bentota', lat: 6.4218, lng: 79.9972 }
+            ];
+
+            let routePoints = [];
+            let routeLine = L.polyline([], { color: '#e09f3e', weight: 3, dashArray: '5, 10' }).addTo(map);
+            const locationDisp = document.getElementById('selected-locations-disp');
+            const distanceDisp = document.getElementById('route-distance');
+
+            // Custom icon
+            const defaultIcon = L.icon({
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            // Selected custom icon (green to match primary)
+            const selectedIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            const updateRoute = () => {
+                const latlngs = routePoints.map(p => p.latLng);
+                routeLine.setLatLngs(latlngs);
+
+                let totalDistanceMeters = 0;
+                for (let i = 0; i < latlngs.length - 1; i++) {
+                    totalDistanceMeters += latlngs[i].distanceTo(latlngs[i + 1]);
+                }
+                const totalKm = (totalDistanceMeters / 1000).toFixed(1);
+                distanceDisp.textContent = totalKm + ' km';
+                totalRouteKm = parseFloat(totalKm);
+                calculateBudget(); // Recalculate cost when distance changes!
+
+                if (routePoints.length === 0) {
+                    locationDisp.innerHTML = '<span class="text-gray-500 italic">None selected yet. Click map markers or areas to create route.</span>';
+                } else {
+                    locationDisp.innerHTML = '';
+                    routePoints.forEach((pt, index) => {
+                        const badge = document.createElement('span');
+                        badge.className = 'bg-primary text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1';
+                        badge.innerHTML = `<span class="bg-white/20 rounded-full w-4 h-4 flex items-center justify-center text-[10px]">${index + 1}</span> ${pt.name}`;
+                        locationDisp.appendChild(badge);
+                    });
+                }
+            };
+
+            const airportIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            const toggleLocation = (name, latLng, marker, isAirport = false) => {
+                const existingIndex = routePoints.findIndex(p => p.name === name);
+                if (existingIndex > -1) {
+                    // Remove it
+                    routePoints.splice(existingIndex, 1);
+                    marker.setIcon(isAirport ? airportIcon : defaultIcon);
+                } else {
+                    // Add it
+                    routePoints.push({ name, latLng, marker });
+                    marker.setIcon(selectedIcon);
+                }
+                updateRoute();
+            };
+
+            locations.forEach(loc => {
+                const latLng = L.latLng(loc.lat, loc.lng);
+                const markerIcon = loc.isAirport ? airportIcon : defaultIcon;
+                const marker = L.marker(latLng, { icon: markerIcon }).addTo(map);
+                marker.bindPopup(`<b>${loc.name}</b><br><span style="font-size:10px;color:gray;">Click to add/remove from route</span>`);
+
+                marker.on('click', () => {
+                    toggleLocation(loc.name, latLng, marker, loc.isAirport);
+                });
+            });
+
+            // Add custom locations on map click
+            let customCounter = 1;
+            map.on('click', (e) => {
+                const customName = prompt('Enter a name for this custom location:', 'Custom Location ' + customCounter);
+                if (customName) {
+                    const latLng = e.latlng;
+                    const customMarker = L.marker(latLng, { icon: defaultIcon }).addTo(map);
+                    customMarker.bindPopup(`<b>${customName}</b><br><span style="font-size:10px;color:gray;">Click to add/remove from route</span>`);
+                    customCounter++;
+
+                    // Auto select it since they just created it
+                    toggleLocation(customName, latLng, customMarker);
+
+                    customMarker.on('click', () => {
+                        toggleLocation(customName, latLng, customMarker);
+                    });
+                }
+            });
+
+            // Fix map rendering inside hidden/flex containers
+            setTimeout(() => { map.invalidateSize(); }, 500);
+
+        });
+    </script>
+</body>
+
+</html>
